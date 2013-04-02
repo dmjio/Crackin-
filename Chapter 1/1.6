@@ -1,0 +1,102 @@
+//Given an image represented by NxN matrix, where each pixel is in the image is 4 byts, write a method to rotate the image by 90 degrees. Can you do this in place?
+
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace ImageRotator
+{ 
+	//Write code that compresses a string ex: "aabbccc" == "a2b2c3"
+	//If the compressed string would not become smaller than the original string 
+	//Then you should return the original string
+
+	class MainClass
+	{
+		public static void Main (string[] args)
+		{
+			const int size = 4;
+
+			int[,] image = new int[size, size] { 
+				{1,1,1,1},
+				{2,2,2,2},
+				{3,3,3,3},
+				{4,4,4,4}
+			};
+
+			print (image, size);
+			rotate3 (image, size);
+			print (image, size);
+
+		}
+
+		//I like this implementation the best because its easiest for me to understand
+		public static void rotate3(int[,] a, int n){ //(reverse . tranpose) O(n^2), O(1)
+			//note transpose normally swaps the column and row count, since this is an NxN matrix, it doesn't matter
+			//this is in place
+
+			int tmp;
+
+			//tranpose
+			for (int i = 0; i < n; i++) {
+				for (int j = i+1; j < n; j++) {
+					tmp = a[i,j];
+					a[i,j] = a[j,i];
+					a[j,i] = tmp;
+				}
+			}
+
+			//reverse each row
+			for (int i = 0; i < n; i++) {
+				for (int j = 0, k = n-1; j < k; j++, k--) {
+					tmp = a[i,k];
+					a[i,k] = a[i,j];
+					a[i,j] = tmp;
+				}
+			}
+		}
+
+
+
+	
+		public static int[,] rotate2(int[,] a, int n){ //in place, -90 degress, in place
+			int tmp;
+			for (int i=0; i<n/2; i++) {
+				for (int j=i; j<n-i-1; j++) {
+					tmp = a [i,j];
+					a [i,j] = a [j,n - i - 1];
+					a [j,n - i - 1] = a [n - i - 1,n - j - 1];
+					a [n - i - 1,n - j - 1] = a [n - j - 1,i];
+					a [n - j - 1,i] = tmp;
+				}
+			}
+			return a;
+		}
+
+
+		public static int[,] rotate(int[,] image, int n){ //brute force O(n^2), not in-place
+				int[,] ret = new int[n, n];
+				
+				for (int i = 0; i < n; ++i) {
+					for (int j = 0; j < n; ++j) {
+						ret[i, j] = image[n - j - 1, i];
+					}
+				}
+				
+				return ret;
+			}
+
+	
+		public static void print(int[,] image, int size){
+			for (int i = 0; i < size; i++) {
+				Console.WriteLine ();
+				for (int j = 0; j < size; j++) {
+					Console.Write (image[i,j]);
+					Console.Write ("  ");
+				}
+			}
+			Console.WriteLine ();
+
+		}
+
+	}
+}

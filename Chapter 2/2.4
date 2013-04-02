@@ -1,0 +1,64 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+using LinkedList;
+
+namespace DeleteNodeInMiddle
+{ 
+	/// <summary>
+	/// Write code to partition a linked list around a value x such that all nodes greater than x are to the right and everything else is to the left.
+	/// </summary>
+
+	class MainClass
+	{
+		public static void Main (string[] args)
+		{
+			var list = new LinkedList.LinkedList<int> (5);
+			list.add (5);
+			list.add (4);
+			list.add (3);
+			list.add (22);
+			list.add (4);
+			list.add (33); 
+			list.add (4);
+			list.add (6);
+			list.add (6);
+			Console.WriteLine (list.ToString());
+			var newList = partitionList (list, 32);
+			Console.WriteLine (newList.ToString());
+		}
+
+		//O(n) space on stack frame, 
+		public static LinkedList.LinkedList<int> partitionList(LinkedList.LinkedList<int> list, int x){
+
+			if (list == null || list.Length == 0)
+				return list;
+
+			var node = list.Head;
+
+			var left = new LinkedList.LinkedList<int> ();
+			var right = new LinkedList.LinkedList<int> ();
+
+			while (node!=null) {
+				if (node.Data < x)
+					left.add(node.Data);
+				else
+					right.add(node.Data);
+				node = node.Next;
+			}
+
+			if (left.Length == 0) return right;
+			if (right.Length == 0) return left;
+
+			node = left.Head;
+
+			while (node.Next != null)
+				node = node.Next;
+
+			node.Next = right.Head;
+
+			return left;
+
+		}
+	}
+}

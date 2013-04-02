@@ -1,0 +1,40 @@
+//Implement an algorithm to replace a string that has spaces in it with "%20"
+
+using System;
+
+namespace ReplaceString
+{
+	class MainClass
+	{
+		public static void Main (string[] args)
+		{
+			char[] str = "This is a sample string".ToCharArray ();
+			var result = insertPercentTwenty (str);
+			string s = new string(result);
+			Console.WriteLine (s);
+		}
+			
+		public static char[] insertPercentTwenty(char[] arr){
+
+			int newLength = 0;
+			for (int i = 0; i <  arr.Length; i++) {
+				if (arr[i] == ' ') 
+					newLength++;
+			}
+
+			var newArray = new char[newLength*2+arr.Length];
+
+			for (int i = 0, j = 0; i < arr.Length; i++, j++) {
+				if (arr[i] == ' '){
+					newArray[j] = '%';
+					newArray[j+1] = '2';
+					newArray[j+2] = '0';
+					j+=2;
+				} else
+					newArray[j] = arr[i];
+			}
+			return newArray;
+
+		}
+	}
+}

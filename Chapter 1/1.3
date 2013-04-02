@@ -1,0 +1,63 @@
+using System;
+using System.Collections.Generic;
+
+//Given two identical strings find if one is identical to the other
+
+namespace PermutationString
+{ 
+	//Given two strings, write some code to determine whether one is a permutation of the other
+	//Ask about whitespace and case sensitivity
+
+	class MainClass
+	{
+		public static void Main (string[] args)
+		{
+			string s1 = "ada";
+			string s2 = "abc";
+			var result = isIdenticalCharCount(s1,s2);
+			Console.WriteLine (result);
+		}
+
+		public static bool isPermutation(string a, string b){ //O(nlgn)
+			if (a.Length != b.Length)
+				return false;
+			return bub_sort(a) == bub_sort(b);
+		}
+
+		public static bool isIdenticalCharCount(string a, string b){
+			if (a.Length != b.Length) return false;
+			var ta = a.ToCharArray ();
+			var tb = b.ToCharArray ();
+			var table = new int[256]; //2kb of space
+
+			foreach (var item in ta)
+				table[item]++;
+
+			foreach (var item in tb) 
+				table[item]--;
+
+			foreach (var item in table) 
+				if (item > 0)
+					return false;
+
+			return true;
+		}
+
+	
+
+		public static string bub_sort(string s){ //O(n^2) running time, O(1) space
+			char temp;
+			var arr = s.ToCharArray ();
+			for (int i = 0; i < arr.Length; i++) {
+				for (int j = 0; j < arr.Length-1; j++) {
+					if (arr[j] < arr[j+1]){
+						temp = arr[j];
+						arr[j] = arr[j+1];
+						arr[j+1] = temp;
+					}
+				}
+			}
+			return new string (arr);
+		}
+	}
+}

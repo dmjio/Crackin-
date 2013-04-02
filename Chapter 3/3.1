@@ -1,0 +1,71 @@
+using System;
+using System.Text;
+using LinkedList;
+using ReplaceString;
+
+namespace ThreeStackArray
+{ 
+	/// <summary>
+	/// Make an array with 3 stacks
+	/// </summary>
+
+	class MainClass
+	{
+
+		public static int[] Arr;
+		public static int[] ptrs;
+
+		public static void Main (string[] args)
+		{
+			const int size = 100;
+			Arr = new int[size*3];
+			ptrs = new int[] { -1,-1,-1 };
+
+			push (1, 55); //push 55 on first stack
+			push (2, 77); //push 77 on second stack
+			push (3, 99); //push 99 on third stack
+
+			foreach (var item in Arr) {
+				Console.Write (item);
+			}
+			Console.WriteLine ("\n----\n");
+			Console.WriteLine (pop(1));
+		}
+
+		public static bool push(int index, int val){
+
+			if (index > 3 || index < 1)
+				throw new IndexOutOfRangeException ("Cannot retrieve index over 3 or less than 1");
+
+			int ptr = ptrs [index-1]; //get pointer at given stack
+
+			if (ptr > 99) //if this pointer is full return false
+				return false;
+
+			int abspos = (100 * (index - 1)) + (ptr < 0 ? 0 : ptr); //get absolute poisition of where to insert new value in stack.
+
+			ptrs [index-1]++; //increment pointer position on given stack
+
+			Arr [abspos] = val;
+
+			return true;
+
+		}
+
+
+		public static int pop(int index){
+			
+			int ptr = ptrs [index-1]; //get pointer at given stack
+
+			if (ptr == -1)
+				throw new Exception ("Cannot pop an empty stack!");
+			
+			int abspos = (100 * (index - 1)) + ptr; //get absolute poisition of where to pop old value in stack.
+
+			ptrs [index-1]--;
+
+			return Arr [abspos];
+
+		}
+	}
+}

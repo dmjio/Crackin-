@@ -1,0 +1,63 @@
+//write an algorithm such that if an element in an MxN matrix is 0, its entire row and column are set to 0
+
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace RowColumnZeroSetter
+{ 
+	//Write an algorithm such that if an element in an MxN matrix is 0, its entire row and column are set to 0
+
+	class MainClass
+	{
+		public static void Main (string[] args)
+		{
+			const int x = 4;
+			const int y = 5;
+
+			int[,] image = { 
+				{1,1,1,1},
+				{2,0,2,2},
+				{3,3,3,3},
+				{4,4,0,4},
+				{5,0,5,5}
+			};
+
+			print (image, y,x);
+			zeroSetter (image, y,x);
+			print (image, y,x);
+
+		}
+
+		public static void zeroSetter(int[,] arr, int x, int y){ //O(MN) and in place, with space complexity of O(M+N)
+
+			var xs = new bool[x];
+			var ys = new bool[y];
+
+			for (int i = 0; i < x; i++)
+				for (int j = 0; j < y; j++)
+					if (arr[i,j] == 0){
+						xs[i] = true;
+						ys[j] = true;
+					}
+
+			for (int i = 0; i < x; i++)
+				for (int j = 0; j < y; j++)
+					if (xs[i] || ys[j])
+						arr[i,j] = 0;
+		}
+	
+		public static void print(int[,] image, int x, int y){
+			for (int i = 0; i < x; i++) {
+				Console.WriteLine ();
+				for (int j = 0; j < y; j++) {
+					Console.Write (image[i,j]);
+					Console.Write ("  ");
+				}
+			}
+			Console.WriteLine ();
+
+		}
+
+	}
+}

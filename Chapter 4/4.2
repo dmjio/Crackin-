@@ -1,0 +1,21 @@
+//Given a directed graph write an algorithm to find out wether or not there is a path between
+one node and the other
+
+//Answer: just modify BFS
+
+public static bool PathExists(Node<T> source, Node<T> target){
+			var queue = new Queue.Queue<Node<T>> (source);
+			Visit (source);
+			while (!queue.IsEmpty()) {
+				var node = queue.Dequeue();
+				foreach (var n in node.AdjList) {
+					if (!n.Visited){
+						if (n.Equals(target))
+							return true;
+						Visit(n);
+						queue.Enqueue(n);
+					}
+				}
+			}
+			return false;
+		}

@@ -1,0 +1,18 @@
+//Given a sorted increasing array, write an algorithm to make a BST of increasing minimal height
+
+public static BinaryTreeNode<int> makeTreeFromArray(int [] arr, BinaryTreeNode<int> node){
+	
+	if (node == null)
+		return node;
+
+	int mid = (int)arr.Length / 2;		
+
+	node.Data = arr[mid];
+	node.Left = makeTreeFromArray(node.left, 0, mid);
+	node.Right = makeTreeFromArray(node.right, mid+1, arr.Length);
+	return node;
+}
+
+public static BinaryTreeNode<int> makeTreeFromArray(int [] arr){
+	return makeTreeFromArray(arr);
+}

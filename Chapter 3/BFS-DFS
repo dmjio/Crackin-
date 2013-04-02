@@ -1,0 +1,51 @@
+using System;
+using System.Text;
+using LinkedList;
+using MinStack;
+using Stack;
+using Queue;
+using SetOfStacks;
+using QueueOfTwoStacks;
+using AnimalShelter;
+using Graphs;
+
+namespace StackWithMin
+{ 
+	/// <summary>
+	/// Implementation of BFS and DFS
+	/// </summary>
+	class MainClass {
+		public static void Main(string[] args){
+
+			var a = new Graphs.Node<string> ("A",2);
+			var b = new Graphs.Node<string> ("B",2);
+			var c = new Graphs.Node<string> ("C",2);
+			var d = new Graphs.Node<string> ("D",2);
+			var e = new Graphs.Node<string> ("E",2);
+			var f = new Graphs.Node<string> ("F",2);
+
+			a.AddAdjList (b, c);
+			b.AddAdjList (a, d);
+			c.AddAdjList (a, e);
+			d.AddAdjList (b, f);
+			e.AddAdjList (c, f);
+			f.AddAdjList (d, e);
+
+			var graph = new Graph<string> (a, b, c, d, e, f);
+
+			Console.WriteLine ("BFS");
+			GraphSearch<string>.BFS (a);
+
+			graph.Clear ();
+
+			Console.WriteLine ("DFS");
+			GraphSearch<string>.DFS (graph);
+
+
+
+		
+
+
+		}
+	}
+}

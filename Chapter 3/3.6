@@ -1,0 +1,13 @@
+//Sort a stack
+//O(n^2) time and O(n) space
+public static Stack<int> Sort(Stack<int> s1){
+			int temp;
+			var s2 = new Stack<int> ();
+			while (!s1.IsEmpty()) {
+				temp = s1.Pop ();
+				while (!s2.IsEmpty() && s2.Peek () > temp)
+					s1.Push(s2.Pop ());
+				s2.Push (temp);
+			}
+			return s2;
+		}

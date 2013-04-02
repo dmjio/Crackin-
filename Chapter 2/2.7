@@ -1,0 +1,63 @@
+using System;
+using System.Text;
+using LinkedList;
+using ReplaceString;
+
+namespace CircularListNodeBeginning
+{ 
+	/// <summary>
+	/// Test whether or not a linked list is a palindrome
+	/// </summary>
+
+	class MainClass
+	{
+		public static void Main (string[] args)
+		{
+
+			var list = new LinkedList<char> (); //palindrome
+			list.add ('r'); 
+			list.add ('a');
+			list.add ('c');
+			list.add ('e');
+			list.add ('c');
+			list.add ('a');
+			list.add ('r'); //odd case
+
+			//list.add ('h'); 
+			//list.add ('a');
+			//list.add ('n');
+			//nlist.add ('n');
+			//list.add ('a');
+			//list.add ('h'); //even case
+
+			//get mid point by fast runner slow runner technique
+			var slow = list.Head;
+			var fast = list.Head;
+
+			var stack = new Stack<char> ();
+
+			while (fast != null && fast.Next != null) { //ensure that fast is not null
+				stack.push(slow.Data);
+				slow = slow.Next;
+				fast = fast.Next.Next;
+			}
+
+			if (fast != null) //has odd number of elements
+				slow = slow.Next;
+
+			//slow now equals the midpoint, 
+			//stack now contains the first half of the linked list reversed
+
+			while (slow.Next != null) {
+				var ele = stack.pop ();
+				if (slow.Data != ele) {
+					Console.WriteLine ("Not a palindrome");
+					return;
+				}
+				slow = slow.Next;
+			}
+
+			Console.WriteLine ("You found a palindrome!");
+		}
+	}
+}

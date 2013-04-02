@@ -1,0 +1,66 @@
+//Write code to remove duplicates from an unsorted linked list
+//What if a temporary buffer is not allowed?
+using System;
+using System.Collections.Generic;
+using System.Text;
+using LinkedList;
+
+namespace LinkedListDuplicateRemoval
+{ 
+	//Write code to remove duplicates from an unsorted linked list
+	//What if a temporary buffer is not allowed?
+	class MainClass
+	{
+		public static void Main (string[] args)
+		{
+			var list = new LinkedList.LinkedList<int> (4);
+			list.add (5);
+			list.add (4);
+			list.add (3);
+			list.add (4);
+			list.add (4);
+			list.add (4);
+			list.add (4);
+			list.add (6);
+			list.add (6);
+
+			Console.WriteLine (list.ToString ());
+			Console.WriteLine (list.Length);
+
+			remove_dupes_runner (list);
+			Console.WriteLine (list.ToString());
+			Console.WriteLine (list.Length);
+		}
+
+		//With a hash table O(n) lookup time
+		public static void remove_dupes(LinkedList.LinkedList<int> list){
+			var node = list.Head;
+			var table = new Dictionary<int,bool> ();
+			while (node != null) {
+				if (table.ContainsKey (node.Data))
+					list.remove (node.Data);
+				else 
+					table [node.Data] = true;
+				node = node.Next;
+			}
+		}
+
+		//Without a hash table (use runner method) O(n^2), but no added space.
+		public static void remove_dupes_runner(LinkedList.LinkedList<int> list){
+			var node = list.Head;
+			Node<int> runner;
+			while (node != null) {
+				runner = node;
+				while (runner.Next != null){
+					if (runner.Next.Data.Equals(node.Data)){
+						runner.Next = runner.Next.Next;
+						list.Length--;
+					}
+					else
+						runner = runner.Next;	
+				}
+				node = node.Next;
+			}
+		}
+	}
+}

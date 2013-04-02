@@ -1,0 +1,64 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+using LinkedList;
+
+namespace LinkedListDuplicateRemoval
+{ 
+	/// Implement an algorithm to find the kth to last element of singly-linked list
+
+	class MainClass
+	{
+		public static void Main (string[] args)
+		{
+			var list = new LinkedList.LinkedList<int> (4);
+			list.add (5);
+			list.add (4);
+			list.add (3);
+			list.add (4);
+			list.add (4);
+			list.add (33); 
+			list.add (4);
+			list.add (6);
+			list.add (6);
+
+			findkthtolastiter (list.Head, list.Length-1); //returns 5
+
+		}
+
+		//O(n) space on stack frame, 
+		public static int findkthtolast(Node<int> node, int k){
+		
+			if (node == null)
+				return 0;
+
+			int i = findkthtolast (node.Next, k) + 1;
+
+			if (i == k)
+				Console.WriteLine ("Found the element {0}", node.Data);
+
+			return i;
+
+		}
+
+		//iteratively, O(1) space, O(n) time
+		public static int findkthtolastiter(Node<int> one, int k){
+
+			Node<int> two;
+			two = one;
+
+			while (k > 1 && two.Next != null) { //move two k spots ahead
+				two = two.Next;
+				k--;
+			}
+
+			while (two.Next != null) { //move two until null, one will now be the kth position
+				one = one.Next;
+				two = two.Next;
+			}
+
+			Console.WriteLine ("Found the element {0}", one.Data);
+			return one.Data;
+		}
+	}
+}

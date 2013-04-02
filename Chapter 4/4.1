@@ -1,0 +1,17 @@
+//check if a tree is balanced
+
+
+public static int getHeight(BinaryTreeNode<int> node){
+	if (node == null)
+		return 0;
+	return Math.max(getHeight(node.Left),getHeight(node.Right))+ 1;
+}
+
+public static bool isBalanced(BinaryTreeNode<int> node){
+	if (root = null) return false;
+	int left = getHeight(node.Left);
+	int right = getHeight(node.Right);
+	int diff = Math.abs(left-right);
+	if (diff > 1) return false;
+	return isBalanced(root.Left) && isBalanced(root.Right);		
+}

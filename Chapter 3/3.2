@@ -1,0 +1,51 @@
+using System;
+using LinkedList;
+using Stack;
+
+namespace MinStack
+{
+	public class MinStack<T> : Stack<T> where T : struct 
+	{
+		public LinkedList<T> Mins { get; set; }
+		
+		public MinStack () : base() {  // call base constructor
+			Mins = new LinkedList<T> (); 
+		}
+		
+		public MinStack (T data) : base(data) {
+			Mins = new LinkedList<T> (data);
+		}
+
+		public override void push(T data){
+			base.push (data);
+
+			if ((int)data <= GetMin ())  //if the new element being added is smaller than the 
+										//current minimum, add it to the top of the Min stack
+				Mins.add_head (data);
+		}
+		
+		public override T pop () {
+			var data = base.pop ();
+
+			if (data.Equals(GetMin ())) //if popped element is the current minimum, then pop the current minimum
+				Mins.remove_head ();
+
+			return data;
+		}
+		
+		public override string ToString () {
+			return string.Format ("MinStack: List={0}]", base.List.ToString());
+		}
+
+		public T Peek(){
+			return Mins.Head.Data;
+		}
+		
+		public T GetMin(){
+			if (Mins.Length > 0)
+				return Peek ();
+			throw new Exception("Cannot peek on an empty stack");
+		}
+	}
+}
+

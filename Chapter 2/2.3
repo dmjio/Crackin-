@@ -1,0 +1,39 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+using LinkedList;
+
+namespace DeleteNodeInMiddle
+{ 
+	/// <summary>
+	/// Implement an algorithm to delete a Node in the middle of a linked-list given only access to that node
+	/// </summary>
+
+	class MainClass
+	{
+		public static void Main (string[] args)
+		{
+			var list = new LinkedList.LinkedList<int> (4);
+			list.add (5);
+			list.add (4);
+			list.add (3);
+			list.add (22);
+			list.add (4);
+			list.add (33); //4th to last element
+			list.add (4);
+			list.add (6);
+			list.add (6);
+							//4 -- 5 -- 4 -- 3 -- 22 -- 4
+			var node = list.Head.Next.Next.Next.Next.Next;
+			deleteNodeInMiddle (node); //gets rid of 4
+			Console.WriteLine (list.ToString ());
+		}
+
+		//O(n) space on stack frame, 
+		public static void deleteNodeInMiddle(Node<int> node){
+			int data = node.Next.Data;
+			node.Data = data;
+			node.Next = node.Next.Next;
+		}
+	}
+}

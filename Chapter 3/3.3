@@ -1,0 +1,87 @@
+using System.Collections;
+using System;
+using Stack;
+using System.Collections.Generic;
+using System.Text;
+
+namespace SetOfStacks
+{
+	/// <summary>
+	/// Imagine a literal stack of plates then when one gets too high it topples. 
+	/// Implement a set of stacks.
+	/// </summary>
+
+	public class SetOfStacks<T> where T : struct
+	{
+		public int SizeLimit;
+		public IList<Stack.Stack<T>> Stacks;
+		public int ArrayIndex;
+
+		public int Length;
+
+		public SetOfStacks (int limit) {
+			Stacks = new List<Stack.Stack<T>> ();
+			SizeLimit = limit;
+			Stacks.Add (new Stack.Stack<T> ());
+			ArrayIndex = 0;
+		}
+
+		public void Push(T data){  //case 1: current stack is full, make a new one
+			if (SizeLimit == Stacks[ArrayIndex].Length) {
+				ArrayIndex++; //increment List index
+
+				//make a new stack 
+				Stacks.Add(new Stack.Stack<T>());
+				Length++;
+			}
+			//if the size limit is not infringed then just incremement the indexes
+			Stacks [ArrayIndex].push (data);
+		}
+
+		public T Pop() {
+			//if array index is 0 and the stacklength is 0, error
+			if (ArrayIndex == 0 && Stacks[ArrayIndex].Length == 0)
+				throw new InvalidOperationException("You cannot attempt to pop off an element from an empty set of stack");
+
+			//if array index is not zero and stack length is 0, go back to a new stack
+			if (Stacks [ArrayIndex].Length == 0) {
+				Stacks.RemoveAt(ArrayIndex); //get rid of it!
+				ArrayIndex--; //prev stack
+				Length--;
+			}
+
+			return Stacks [ArrayIndex].pop ();
+
+		}
+
+		public override string ToString () {
+			var sb = new StringBuilder ();
+			sb.AppendLine ("Set of Stacks");
+			foreach (var item in Stacks) {
+				sb.AppendLine(item.ToString());
+			}
+			return sb.ToString();
+		}
+	}
+
+//implementation
+	class MainClass
+	{
+		public static void Main(string[] args){
+			var ss = new SetOfStacks<int> (5);
+			for (int i = 0; i < 100; i++) {
+				ss.Push (50);
+			}
+
+			for (int i = 0; i < 30; i++) {
+				ss.Pop ();
+			}
+
+			Console.WriteLine (ss.ToString());
+			Console.WriteLine (ss.Length);
+		}	
+	}
+
+
+}
+

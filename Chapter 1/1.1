@@ -1,0 +1,62 @@
+using System;
+
+namespace UniqueString
+{ 
+	//Implement an algorithm to determine if a string has all unique characters
+	class MainClass
+	{
+		public static void Main (string[] args) {
+			string s = "aba";
+			var result = isUniqBitVect(s);
+			Console.WriteLine (result);
+		}
+
+		public static bool isUniqueSorted(string s){ //O(nlgn)
+			var temp = s.ToCharArray ();
+			bub_sort (temp);
+			for (int i = 0; i < s.Length-1; i++) {
+				if (temp[i] == temp[i+1])
+					return false;
+			}
+			return true;
+		}
+
+		public static bool isUniqBitVect(string s){ //O(n), O(1) space, 32-bit constant (4 bytes)
+			int checker = 0, val = 0;
+			foreach (var c in s) {
+				val = c - 'a'; //ord val of 'a' is 97
+				if ((checker & (1 << val)) > 0)
+					return false;
+				checker |= (1 << val);
+			}
+			return true;			
+		}
+
+		public static bool isUnique(string s){ //O(n), O(1) space, 256-bit constant (32 bytes)
+			if (s.Length > 256) {
+				return false;
+			}
+			var temp = new bool[256];
+			var strarr = s.ToCharArray ();
+			for (int i = 0; i < s.Length; i++) {
+				if (temp[strarr[i]])
+					return false;
+				temp[strarr[i]] = true;
+			}
+			return true;
+		}
+
+		public static void bub_sort(char [] arr){ //O(n^2) running time, O(1) space
+			char temp;
+			for (int i = 0; i < arr.Length; i++) {
+				for (int j = 0; j < arr.Length-1; j++) {
+					if (arr[j] < arr[j+1]){
+						temp = arr[j];
+						arr[j] = arr[j+1];
+						arr[j+1] = temp;
+					}
+				}
+			}
+		}
+	}
+}

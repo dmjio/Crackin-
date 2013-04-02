@@ -1,0 +1,12 @@
+//Write a function to determine the number of bits required to convert integer A to integer B
+//Input: 31, 14 
+//Output: 2
+
+public static int places (int a, int b){
+			int places = 0;
+			int res = a ^ b;
+			for (int i = 0; i < 32; i++)
+				if ((res & (1 << i)) > 0)
+					places++;
+			return places;
+		}

@@ -1,0 +1,98 @@
+using System;
+using Queue;
+using System.Text;
+
+
+///Make an animal shelter
+
+namespace AnimalShelter
+{
+	public class AnimalShelter
+	{
+		public Queue<Dog> Dogs;
+		public Queue<Cat> Cats;
+		public int ShelterLength { get { return Dogs.Length + Cats.Length; } }
+
+		private int counter;
+
+		public AnimalShelter ()
+		{
+			Dogs = new Queue<Dog> ();
+			Cats = new Queue<Cat> ();
+			counter = 0;
+		}
+
+		public void Enqueue (IAnimal animal)
+		{
+			//increment counter
+			animal.Arrival = counter++; 
+			if (animal.GetType() == typeof(Dog))
+				Dogs.Enqueue ((Dog)animal);
+			else 
+				Cats.Enqueue ((Cat)animal);
+		}
+
+		public IAnimal DequeueAny ()
+		{
+			if (Cats.Length == 0 && ShelterLength > 0)
+				return Dogs.Dequeue ();
+			if (Dogs.Length == 0 && ShelterLength > 0)
+				return Cats.Dequeue ();
+			if (Cats.Peek ().Arrival < Dogs.Peek ().Arrival)
+				return Cats.Dequeue ();
+			return Dogs.Dequeue ();
+		}
+
+		public IAnimal DequeueDog ()
+		{
+			if (Dogs.Length == 0)
+				throw new InvalidOperationException ("Cannot remove a dog from an empty list");
+			return Dogs.Dequeue ();
+		}
+
+		public IAnimal DequeueCat ()
+		{
+			if (Cats.Length == 0)
+				throw new InvalidOperationException ("Cannot remove a dog from an empty list");
+			return Cats.Dequeue ();
+		}
+
+		public override string ToString ()
+		{
+			var sb = new StringBuilder ();
+			sb.AppendLine ("[AnimalShelter]");
+			sb.AppendLine ("Dogs");
+			sb.AppendLine (Dogs.ToString ());
+			sb.AppendLine ("Cats");
+			sb.AppendLine (Cats.ToString ());
+			return sb.ToString ();
+		}
+
+	}
+
+	public interface IAnimal
+	{
+		int Arrival { get; set; }
+	}
+
+	public struct Cat : IAnimal
+	{ 
+		public int Arrival { get; set; }
+
+		public override string ToString ()
+		{
+			return string.Format ("Cat : {0}", Arrival);
+		}
+	}
+
+	public struct Dog : IAnimal
+	{ 
+		public int Arrival { get; set; }
+
+		public override string ToString ()
+		{
+			return string.Format ("Dog : {0}", Arrival);
+		}
+	}
+}
+

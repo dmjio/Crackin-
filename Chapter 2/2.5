@@ -1,0 +1,75 @@
+using System;
+using System.Text;
+using LinkedList;
+using ReplaceString;
+
+namespace AddLinkedLists
+{ 
+	/// <summary>
+	/// You have two numbers represented by a linkedlist where each node contains a single digit. The digits are stored in reverse order, such that the 1's
+	/// digit is at the head of the list. Write a function that adds the two numbers and returns the sum as a linked list
+	/// </summary>
+
+	class MainClass
+	{
+		public static void Main (string[] args)
+		{
+			var one = new LinkedList.LinkedList<int> ();
+			one.add (1);
+			one.add (2);
+			one.add (3);
+			var two = new LinkedList.LinkedList<int> ();
+			two.add (2);
+			two.add (3);
+			two.add (4);
+
+			//sum should be 321 + 432 = 753, but displayed in 
+			//reverse order as a linked list: "(3) -> (5) -> (7)"
+
+			var result = add (one, two);
+
+			Console.WriteLine (result.ToString ());
+		}
+
+		//O(n) space on stack frame, 
+		public static LinkedList.LinkedList<int> add(LinkedList.LinkedList<int> one, LinkedList.LinkedList<int> two){
+
+			//you're not handling the case where one linked list is longer than an other
+
+			//digit place
+			int i = 0, total = 0;
+
+			//null checks
+			if (one == null && two == null)
+				return new LinkedList.LinkedList<int>(0);
+			if (one == null && two != null)
+				return two;
+			if (two == null && one != null)
+				return one;
+
+			var a = one.Head;
+			var b = two.Head;
+
+			while (a != null && b != null) {
+				total += (a.Data + b.Data) * (int)(Math.Pow(10,i));
+				i++;
+				a = a.Next;
+				b = b.Next;
+			}
+
+
+
+			var result = new LinkedList.LinkedList<int> ();
+
+			foreach (var item in total.ToString())
+				result.add_head (Convert.ToInt32 (item.ToString()));
+			
+			return result;
+			
+		}
+
+
+
+
+	}
+}

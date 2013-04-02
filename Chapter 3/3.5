@@ -1,0 +1,72 @@
+using System;
+using Stack;
+using System.Text;
+
+namespace QueueOfTwoStacks
+{
+	public class QueueOfTwoStacks<T> where T : struct
+	{
+		public Stack<T> Newest;
+		public Stack<T> Oldest;
+
+		public QueueOfTwoStacks() {
+			Newest = new Stack<T>();
+			Oldest = new Stack<T> ();
+		}
+
+		public void Enqueue(T data){
+			Newest.push (data);
+		}
+
+		public T Dequeue(){
+			ShiftLeft ();
+			return Oldest.pop ();
+		}
+
+		public void ShiftLeft(){
+			if (Oldest.IsEmpty ())
+				foreach (var item in Newest.List)
+					Oldest.push (item);									
+		}
+
+		public T Peek(){
+			ShiftLeft ();
+			return Oldest.peek ();						
+		}
+
+		public override string ToString(){
+			var sb = new StringBuilder ();
+			sb.AppendLine ("Newest:");
+			sb.AppendLine (Newest.ToString ());
+			sb.AppendLine ("Oldest:");
+			sb.AppendLine (Oldest.ToString ());
+			return sb.ToString ();
+		}
+	}
+}
+
+///implementatino
+class MainClass {
+		public static void Main(string[] args){
+
+			var qs = new QueueOfTwoStacks<int> ();
+			qs.Enqueue (1);
+			qs.Enqueue (2);
+			qs.Enqueue (3);
+			qs.Enqueue (4);
+			qs.Enqueue (5);
+			Console.WriteLine (qs.Dequeue ());
+			Console.WriteLine (qs.Dequeue ());
+
+			var qss = new Queue<int> ();
+			qss.Enqueue (1);
+			qss.Enqueue (2);
+			qss.Enqueue (3);
+			qss.Enqueue (4);
+			qss.Enqueue (5);
+			Console.WriteLine (qss.Dequeue ());
+			Console.WriteLine (qss.Dequeue ());
+
+		}	
+	}
+

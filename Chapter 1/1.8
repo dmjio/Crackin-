@@ -1,0 +1,24 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace IsRotation
+{ 
+	//assume you have a method issubstring() which checks if one word is a substring of another. 
+	//for example "watterbottle" is a rotation of "erbottlewat"
+	class MainClass
+	{
+		public static void Main (string[] args)
+		{
+			const string s = "watterbottle";
+			const string r = "atterbottlew";
+			Console.WriteLine (isrot (s, r));
+		}
+
+		public static bool isrot(string s, string r){
+			if (s.Length != r.Length)
+				return false;
+			return (s + s).Contains (r);
+		}
+	}
+}

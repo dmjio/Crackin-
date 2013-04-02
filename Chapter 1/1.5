@@ -1,0 +1,59 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace StringCompressor
+{ 
+	//Write code that compresses a string ex: "aabbccc" == "a2b2c3"
+	//If the compressed string would not become smaller than the original string 
+	//Then you should return the original string
+
+	class MainClass
+	{
+		public static void Main (string[] args)
+		{
+			string s = "aabbccddffaabbccccccccccccccccccccccc";
+			var result = compressor(s);
+			Console.WriteLine (result);
+		}
+
+		public static string compressor(string s){
+
+			if (!count_compressor (s))
+				return s;
+
+			var newstr = new StringBuilder();
+			int counter = 1;
+			for (int i = 0; i < s.Length-1; i++){
+				if (s[i] == s[i+1])
+					counter++;
+				else {
+					newstr.Append(s[i]);
+					newstr.Append(counter);
+					counter = 1;
+				}
+			}
+			newstr.Append (s[s.Length-1]);
+			newstr.Append (counter);
+
+			return newstr.ToString ();
+		}
+
+		public static bool count_compressor(string s){
+			int counter = 1, size = 0;
+			for (int i = 0; i < s.Length-1; i++){
+				if (s[i] == s[i+1])
+					counter++;
+				else {
+					size++;
+					size += counter.ToString().Length;
+					counter = 1;
+				}
+			}
+			size += 2;
+			if (size < s.Length) 
+				return true;
+			return false;
+		}
+	}
+}
